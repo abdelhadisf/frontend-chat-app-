@@ -15,6 +15,8 @@ interface AuthState {
   login: (data: LoginDto) => Promise<void>;
   register: (data: RegisterDto) => Promise<void>;
   logout: () => Promise<void>;
+  refreshMe: () => Promise<void>;
+  updateProfileFirstname: (firstname: string) => Promise<void>;
 }
 
 const AuthCtx = createContext<AuthState | null>(null);
@@ -55,6 +57,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   setUser(me.data);
   }
 
+// inside AuthProvider
+async function refreshMe() {
+  const r = await api.get("/auth");
+  setUser(r.data ?? null);
+}
+
+async function updateProfileFirstname(firstname: string) {
+  const updated = await (await import("../api/user")).updateMe({ firstname });
+  setUser(updated); // keep state in sync
+}
+
+
+
 async function logout() {
   // optional: call backend if you want to track logouts
   localStorage.removeItem("token");
@@ -66,9 +81,10 @@ async function logout() {
 
 
   return (
-    <AuthCtx.Provider value={{ user, loading, login, register, logout }}>
+    <AuthCtx.Provider value={{ user, loading, login, register, logout, refreshMe, updateProfileFirstname }}>
       {children}
     </AuthCtx.Provider>
+    
   );
 };
 
