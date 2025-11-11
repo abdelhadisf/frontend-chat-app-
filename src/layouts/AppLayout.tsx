@@ -54,6 +54,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           >
             Settings
           </NavLink>
+          <NavLink
+  to="/conversations"
+  className={({ isActive }) =>
+    `py-2 px-4 rounded-lg transition ${
+      isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-blue-500/10 hover:text-white"
+    }`
+  }
+>
+  Chat
+</NavLink>
+
         </nav>
       </aside>
 

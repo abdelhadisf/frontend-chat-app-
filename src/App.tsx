@@ -7,6 +7,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ProfileSettings from "./pages/ProfileSettings";
 import AppLayout from "./layouts/AppLayout";
+import Conversations from "./pages/Conversations";
+import ChatRoom from "./pages/ChatRoom";
 
 
 export default function App() {
@@ -19,7 +21,23 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/settings" element={<ProtectedRoute><AppLayout><ProfileSettings /></AppLayout></ProtectedRoute>} />
+      <Route
+  path="/conversations"
+  element={
+    <ProtectedRoute>
+      <AppLayout><Conversations /></AppLayout>
+    </ProtectedRoute>
+  }
+/>
 
+<Route
+  path="/chat/:conversationId"
+  element={
+    <ProtectedRoute>
+      <AppLayout><ChatRoom /></AppLayout>
+    </ProtectedRoute>
+  }
+/>
     </Routes>
   );
 }
